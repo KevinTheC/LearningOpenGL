@@ -2,20 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "VAO.h"
-#include "EBO.h"
-#include "Shader.h"
-#include "array"
-#include <stb_image.h>
-#include "Object.h"
+#include "OpenGLIncludes.h"
 #include "Camera.h"
-#include "thread"
-#include "chrono"
+#include "InputController.h"
 #include "CubeFactory.h"
 #define red 1.0f, 0.0f, 0.0f,
 #define green 0.0f, 1.0f, 0.0f,
@@ -27,7 +16,7 @@ int height = 900;
 int width = 800;
 
 using namespace glm;
-int main(void)
+int main()
 {
     GLFWwindow* window;
     if (!glfwInit())
@@ -50,24 +39,12 @@ int main(void)
     //Shader shaderprogram("default.vert","default.frag");
     std::shared_ptr<Shader> sh(new Shader("color.vert","color.frag"));
     sh->activate();
-    new Object(sh, std::shared_ptr<std::vector<GLfloat>>(new std::vector<GLfloat>({
-        2.0f, 0.5f, 0.0f,        red
-        - 2.0f,  0.5f, 0.0f,      red
-        0.0f,  0.5f, 0.0f,       red })), std::shared_ptr<std::vector<GLuint>>(new std::vector<GLuint>({ 0U,1U,2U })));
-    new Object(sh, std::shared_ptr<std::vector<GLfloat>>(new std::vector<GLfloat>({
-        0.0f, 2.0f, 0.0f,        green
-        0.0f, -2.0f, 0.0f,       green
-        0.0f, 0.0f, 0.0f,        green })), std::shared_ptr<std::vector<GLuint>>(new std::vector<GLuint>({ 0U,1U,2U })));
-    new Object(sh, std::shared_ptr<std::vector<GLfloat>>(new std::vector<GLfloat>({
-        0.0f, 0.5f, 2.0f,   blue
-        0.0f, 0.5f, -2.0f,   blue
-        0.0f,  0.5f, 0.0f,  blue })), std::shared_ptr<std::vector<GLuint>>(new std::vector<GLuint>({ 0U,1U,2U })));
     Object o = Object(sh, std::shared_ptr<std::vector<GLfloat>>(new std::vector<GLfloat>({
         -.2f, 0.4f, -.2f,        gray
-        -.2f,  0.4f, .2f,      green
-        .2f,  0.4f, .2f,       red
-        .2f, 0.4f, -.2f, 		blue
-        0.0f, 0.8f, 0.0f,		white
+        -.2f,  0.4f, .2f,      gray
+        .2f,  0.4f, .2f,       gray
+        .2f, 0.4f, -.2f, 		gray
+        0.0f, 0.8f, 0.0f,		gray
         })), 
         std::shared_ptr<std::vector<GLuint>>(new std::vector<GLuint>({
         0U, 1U, 2U,
@@ -100,27 +77,27 @@ int main(void)
     glUniform1i(tex0Uni, 0);
     */
     //textures
-    o.setContext([]() {glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);});
+    o.setContext([](){glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);});
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
     
     glEnable(GL_DEPTH_TEST);
-    Object object = CubeFactory::generate(glm::vec3(0.0f, 0.0f, 0.0f), .2f, {red},sh);
-    
+    //Object* object = CubeFactory::generate(glm::vec3(0.0f, 0.0f, 0.0f), .2f, {red},sh);
+    //object->setContext();
+    InputController::addObserver(Camera::instance().get());
+    glfwSetMouseButtonCallback(window, InputController::GLFWmouseButtonCB);
+    glfwSetCursorPosCallback(window, InputController::GLFWmouseMoveCB);
+    glfwSetWindowSizeCallback(window, InputController::GLFWresizeCB);
+    glfwSetKeyCallback(window, InputController::GLFWkeyCB);
 
-    
-    glfwSetMouseButtonCallback(window,Camera::GLFWmouseButtonCB);
-    glfwSetCursorPosCallback(window,Camera::GLFWmouseMoveCB);
-    glfwSetWindowSizeCallback(window,Camera::GLFWresizeCB);
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         /* Render here */
         //glBindTexture(GL_TEXTURE_2D, texture);
         //o.transform(glm::vec3(0.0f,0.0f,0.001f));
-        Object::drawAll();
+        Renderable::drawAll();
         
         glfwSwapBuffers(window);
-        /* Poll for and process events */
         glfwPollEvents();
     }
     sh->erase();

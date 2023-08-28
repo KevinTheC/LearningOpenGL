@@ -133,24 +133,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Axis.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeFactory.h" />
+    <ClInclude Include="DragListener.h" />
     <ClInclude Include="EBO.h" />
-    <ClInclude Include="Main.h" />
+    <ClInclude Include="includes.h" />
+    <ClInclude Include="InputController.h" />
+    <ClInclude Include="listeners.h" />
+    <ClInclude Include="MouseButtonListener.h" />
+    <ClInclude Include="MouseWheelListener.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="OpenGLIncludes.h" />
+    <ClInclude Include="PointMovementManager.h" />
+    <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="ResizeListener.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="UniqueID.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EBO.cpp" />
+    <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="PointMovementManager.cpp" />
+    <ClCompile Include="Renderable.h" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
-    <ClCompile Include="UniqueID.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>

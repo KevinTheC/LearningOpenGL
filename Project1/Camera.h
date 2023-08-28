@@ -1,20 +1,15 @@
-#pragma once
+#ifndef CAMERA_H
+#define CAMERA_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "VAO.h"
-#include "EBO.h"
-#include "Shader.h"
+#include "OpenGLIncludes.h"
 #include "array"
 #include "cmath"
 #include "Object.h"
-#include <stb_image.h>
-class Camera
+#include "CubeFactory.h"
+#include "listeners.h"
+class Camera : public DragListener, public MouseButtonListener, public ResizeListener, public MouseWheelListener
 {
 public:
 	static std::shared_ptr<Camera> instance()
@@ -31,24 +26,26 @@ public:
 	void setFocus(Object* focus);
 	const glm::mat4& getProj();
 	const glm::mat4& getView();
-
-
-	static void GLFWmouseButtonCB(GLFWwindow *window, int button, int action, int mods);
-	static void GLFWmouseMoveCB(GLFWwindow* window, double xnewpos, double ynewpos);
-	static void GLFWresizeCB(GLFWwindow* window, int width, int height);
+	void handleMouseWheel(GLFWwindow* window, double xoffset, double yoffset);
+	void handleMouseButton(GLFWwindow* window, int button, int action, int mods);
+	void handleDrag(GLFWwindow* window, double xnewpos, double ynewpos);
+	void handleResize(GLFWwindow* window, int width, int height);
 private:
 	Camera();
 	glm::mat4 proj;
 	glm::mat4 view;
+	glm::vec3 center;
+	glm::vec3 viewpoint;
+	glm::vec2 toXY(glm::mat4 model, glm::vec4 point);
 	static float distance(std::pair<float,float>&, std::pair<float,float>);
-	static std::array<GLfloat, 3> getClosestTo(std::pair<float,float> pos,Object& o);
+	Object::VertIterator getClosestTo(std::pair<float,float> pos,Object& o);
 	static std::shared_ptr<Camera> camera;
 
 	int width;
 	int height;
 	Object* focus;
 	unsigned int uboMatrices;
-
+	float total;
 	float thetaang;
 	float omegaang;
 	int flip;
@@ -57,4 +54,4 @@ private:
 	double xpos;
 	double ypos;
 };
-
+#endif

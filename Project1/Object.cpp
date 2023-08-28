@@ -1,30 +1,23 @@
 #include "Object.h"
-//unused
-UniqueID Object::IDgen;
-
-std::vector<Object*> Object::drawables;
 Object::Object(std::shared_ptr<Shader> sp, std::shared_ptr<std::vector<GLfloat>> verts, std::shared_ptr<std::vector<GLuint>> inds)
 {
 	this->sp = sp;
-	this->ID = IDgen.genID();
 	vertices = verts;
 	indices = inds;
 	model = glm::mat4(1.0f);
 
 	sp->activate();
 	std::vector<int> vec = sp->getAttribs();
-	gap = 0;
+	stride = 0;
 	for (int& i : vec)
-		gap += i;
-
+		stride += i;
 	vbo = std::shared_ptr<VBO>(new VBO(vertices));
 	vao = std::shared_ptr<VAO>(new VAO());
 	ebo = std::shared_ptr<EBO>(new EBO(indices));
-	vao->linkAttribs(sp.get(),*vbo.get());
+	vao->linkAttribs(sp.get(), *vbo.get());
 	vao->unbind();
 	vbo->unbind();
 	ebo->unbind();
-	drawables.push_back(this);
 }
 void Object::setContext(void(*func)())
 {
@@ -32,7 +25,26 @@ void Object::setContext(void(*func)())
 }
 void Object::transform(glm::vec3 v3)
 {
-	model = glm::translate(model,v3);
+	model = glm::translate(model, v3);
+}
+void Object::editVertice(VertIterator loc, glm::vec3 newpoint) {
+	int point = (GLfloat*)loc._Ptr() - vertices.get()->data();
+	vertices->at(point) = newpoint[0];
+	vertices->at(point + 1) = newpoint[1];
+	vertices->at(point + 2) = newpoint[2];
+	vbo->update();
+}
+void Object::eraseVertice(VertIterator loc) {
+	if (vertices->size() == stride)
+		return;
+	int point = (GLfloat*)loc._Ptr() - vertices.get()->data();
+	for (int i = 0; i < stride; i++) {
+		vertices->erase(vertices->begin() + point);
+	}
+	vbo->update();
+}
+void Object::addVertice(glm::vec3 newpoint) {
+	//under construction
 }
 glm::vec3 const Object::center()
 {
@@ -40,9 +52,9 @@ glm::vec3 const Object::center()
 	for (int i = 0; i < 3; i++)
 	{
 		float f = 0.0f;
-		for (int j = 0; j < vertices->size(); j += gap)
+		for (int j = 0; j < vertices->size(); j += stride)
 			f += vertices->at(j + i);
-		f /= gap;
+		f /= stride;
 		centerPoint[i] = f;
 	}
 	return centerPoint;
@@ -56,17 +68,9 @@ const std::shared_ptr<Shader> Object::getShader()
 {
 	return sp;
 }
-const long int Object::getID()
-{
-	return ID;
-}
-bool Object::existID(long int num)
-{
-	return IDgen.existsID(num);
-}
 
 
-void const Object::draw()
+void Object::draw()
 {
 	drawFunction();
 	int modelLoc = glGetUniformLocation(sp->ID, "model");
@@ -74,19 +78,4 @@ void const Object::draw()
 	vao->bind();
 	ebo->draw(sp.get());
 	vao->bind();
-}
-void const Object::drawAll()
-{
-	for (int i = 0; i < drawables.size(); i++)
-		drawables.at(i)->draw();
-}
-Object::~Object()
-{
-	for (auto itr = drawables.begin(); itr != drawables.end(); ++itr)
-		if (*itr == this)
-		{
-			drawables.erase(itr);
-			break;
-		}
-	IDgen.freeID(ID);
 }

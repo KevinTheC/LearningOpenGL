@@ -19,63 +19,123 @@
     <Filter Include="Resource Files\Textures">
       <UniqueIdentifier>{771907cd-398c-4696-b550-711d97a98de3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\OpenGL">
+      <UniqueIdentifier>{118f1a92-f4ca-4286-8c32-a13e6634af78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HeaderOnlys">
+      <UniqueIdentifier>{9ec60ec4-6717-40f6-bc20-74529be9fb2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{72453d39-75d6-4af9-a1d6-dbb91ac7ef82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\General">
+      <UniqueIdentifier>{57f8a491-760e-44ce-b489-9276531bb879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OpenGL">
+      <UniqueIdentifier>{f2a719b5-5c30-41a2-85cf-36a9ed80b987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\General">
+      <UniqueIdentifier>{47c35b1b-ad4f-4c6b-8861-c540360b76c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="VAO.h">
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="VBO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EBO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VAO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="UniqueID.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HeaderOnlys</Filter>
+    </ClInclude>
+    <ClInclude Include="InputController.h">
+      <Filter>Header Files\HeaderOnlys</Filter>
+    </ClInclude>
+    <ClInclude Include="DragListener.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ResizeListener.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseButtonListener.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="listeners.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="CubeFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\HeaderOnlys</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="EBO.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="PointMovementManager.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseWheelListener.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="includes.h">
+      <Filter>Header Files\HeaderOnlys</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLIncludes.h">
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="VAO.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="VBO.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="EBO.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="VAO.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files\HeaderOnlys</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="InputController.cpp">
+      <Filter>Header Files\HeaderOnlys</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>Source Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\General</Filter>
     </ClCompile>
-    <ClCompile Include="UniqueID.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="PointMovementManager.cpp">
+      <Filter>Source Files\General</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
