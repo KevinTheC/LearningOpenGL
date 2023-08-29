@@ -5,6 +5,7 @@ std::shared_ptr<Camera> Camera::camera;
 #define displayc(sargs, args) std::cout << sargs << args << "\n"
 Camera::Camera()
 {
+    pmm = nullptr;
     viewpoint = {1.0f,0.0f,0.0f};
     total = 1.0f;
     center = {0.0f,0.0f,0.0f};
@@ -106,8 +107,10 @@ void Camera::handleMouseButton(GLFWwindow* window, int button, int action, int m
         glfwGetCursorPos(window, &x, &y);
         y = height - y;
         auto point = instance()->getClosestTo(std::pair<float, float>((float)x, (float)y), *focus);
-        Object* o = CubeFactory::generate(*point, {.05f,.05f,.05f}, { 0.0f,0.0f,0.0f }, focus->getShader());
-        o->setContext([]() {glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); });
+        if (pmm)
+            delete(pmm);
+        pmm = new PointMovementManager(point,focus);
+        
     }
 }
 void Camera::handleMouseWheel(GLFWwindow* window, double xoffset, double yoffset)
@@ -119,11 +122,11 @@ void Camera::handleDrag(GLFWwindow* window,double xnewpos, double ynewpos) {
     if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_HIDDEN)
         if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         {
-            float zperc = sinf(omegaang * PI);
-            float xperc = cosf(omegaang * PI);
-            float yperc = cosf(thetaang * PI);
+            
 
             view = glm::lookAt(viewpoint, center, glm::vec3(0.0f, 1.0f, 0.0f));
+            xpos = xnewpos;
+            ypos = ynewpos;
         }
         else
         {

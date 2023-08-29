@@ -41,6 +41,4 @@ public:
 	}
 	virtual void draw() = 0;
 };
-UniqueID Renderable::IDgen;
-std::unordered_map<long int, Renderable*> Renderable::map;
 #endif

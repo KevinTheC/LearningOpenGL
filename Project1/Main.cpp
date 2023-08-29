@@ -39,6 +39,7 @@ int main()
     //Shader shaderprogram("default.vert","default.frag");
     std::shared_ptr<Shader> sh(new Shader("color.vert","color.frag"));
     sh->activate();
+
     Object o = Object(sh, std::shared_ptr<std::vector<GLfloat>>(new std::vector<GLfloat>({
         -.2f, 0.4f, -.2f,        gray
         -.2f,  0.4f, .2f,      gray

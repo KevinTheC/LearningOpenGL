@@ -1,5 +1,4 @@
-#ifndef CUBEFACTORY_H
-#define CUBEFACTORY_H
+#pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -10,9 +9,9 @@ class CubeFactory
 public:
 	static Object* generate(glm::vec3 center, glm::vec3 dimensions, glm::vec3 color, std::shared_ptr<Shader> sh)
 	{
-		float farx = center[0] + dimensions[0] * .5f;
-		float fary = center[1] + dimensions[1] * .5f;
-		float farz = center[2] + dimensions[2] * .5f;
+		float farx = center[0] + dimensions[0];
+		float fary = center[1] + dimensions[1];
+		float farz = center[2] + dimensions[2];
 		Object* o = new Object(sh, std::shared_ptr<std::vector<GLfloat>>(new std::vector<GLfloat>(
 			{ farx,fary,farz, colors
 			farx,fary,farz - dimensions[2], colors
@@ -40,4 +39,3 @@ public:
 		return o;
 	}
 };
-#endif

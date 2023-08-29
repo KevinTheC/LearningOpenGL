@@ -7,6 +7,7 @@
 #include "array"
 #include "cmath"
 #include "Object.h"
+#include "PointMovementManager.h"
 #include "CubeFactory.h"
 #include "listeners.h"
 class Camera : public DragListener, public MouseButtonListener, public ResizeListener, public MouseWheelListener
@@ -40,6 +41,8 @@ private:
 	static float distance(std::pair<float,float>&, std::pair<float,float>);
 	Object::VertIterator getClosestTo(std::pair<float,float> pos,Object& o);
 	static std::shared_ptr<Camera> camera;
+	PointMovementManager* pmm;
+
 
 	int width;
 	int height;

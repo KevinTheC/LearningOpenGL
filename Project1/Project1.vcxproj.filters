@@ -96,6 +96,9 @@
     <ClInclude Include="OpenGLIncludes.h">
       <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Renderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VAO.cpp">
@@ -112,12 +115,6 @@
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Header Files\HeaderOnlys</Filter>
-    </ClCompile>
-    <ClCompile Include="InputController.cpp">
-      <Filter>Header Files\HeaderOnlys</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderable.h">
-      <Filter>Header Files\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="Axis.cpp">
       <Filter>Source Files\General</Filter>
@@ -136,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="PointMovementManager.cpp">
       <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderable.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
