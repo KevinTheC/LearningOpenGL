@@ -1,8 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
-  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="UserMacros">
+    <MyLibPath>C:\ProgrammingLibs\cLibs</MyLibPath>
+  </PropertyGroup>
   <PropertyGroup />
-  <ItemDefinitionGroup />
-  <ItemGroup />
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(MyLibPath)\OpenGL\glfw-3.3.8.bin.WIN64\lib-vc2022;$(MyLibPath)\glm-master\glm;$(MyLibPath)\glew-2.1.0\lib\Debug\x64;$(MyLibPath)\glew-2.1.0\include;$(MyLibPath)\stb-master</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MyLibPath)\OpenGL\glfw-3.3.8.bin.WIN64\include;$(MyLibPath)\glew-2.1.0\include;$(MyLibPath)\glm-master;$(MyLibPath)\glew-2.1.0\lib\Debug\x64;$(MyLibPath)\stb-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="MyLibPath">
+      <Value>$(MyLibPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
 </Project>
