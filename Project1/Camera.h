@@ -10,7 +10,7 @@
 #include "PointMovementManager.h"
 #include "CubeFactory.h"
 #include "listeners.h"
-class Camera : public DragListener, public MouseButtonListener, public ResizeListener, public MouseWheelListener
+class Camera : public DragListener, public MouseButtonListener, public ResizeListener, public MouseWheelListener, public KeyListener
 {
 public:
 	static std::shared_ptr<Camera> instance()
@@ -27,10 +27,16 @@ public:
 	void setFocus(Object* focus);
 	const glm::mat4& getProj();
 	const glm::mat4& getView();
+	float subtractFromOne(float);
+
+
+	glm::vec3 panDirection(double xdiff, double ydiff);
 	void handleMouseWheel(GLFWwindow* window, double xoffset, double yoffset);
 	void handleMouseButton(GLFWwindow* window, int button, int action, int mods);
 	void handleDrag(GLFWwindow* window, double xnewpos, double ynewpos);
 	void handleResize(GLFWwindow* window, int width, int height);
+	void handleKey(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void refresh();
 private:
 	Camera();
 	glm::mat4 proj;
@@ -43,17 +49,13 @@ private:
 	static std::shared_ptr<Camera> camera;
 	PointMovementManager* pmm;
 
-
+	float yperc;
 	int width;
 	int height;
 	Object* focus;
 	unsigned int uboMatrices;
 	float total;
-	float thetaang;
 	float omegaang;
-	int flip;
-	float prev;
-	bool inc;
 	double xpos;
 	double ypos;
 };

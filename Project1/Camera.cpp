@@ -12,11 +12,8 @@ Camera::Camera()
     height = 0;
     width = 0;
     focus = nullptr;
-    thetaang = 0;
-    omegaang = 0;
-    flip = 1;
-    prev = 0;
-    inc = false;
+    omegaang = 0.0f;
+    yperc = 0.0f;
     xpos = 0;
     ypos = 0;
     uboMatrices = 0;
@@ -113,56 +110,89 @@ void Camera::handleMouseButton(GLFWwindow* window, int button, int action, int m
         
     }
 }
+//temp
 void Camera::handleMouseWheel(GLFWwindow* window, double xoffset, double yoffset)
 {
     std::cout << yoffset << std::endl;
 }
 //good enough
+glm::vec3 Camera::panDirection(double xdiff, double ydiff)
+{
+    xdiff *= -1;
+    float xperc = sinf(omegaang * PI);
+    float zperc = cosf(omegaang * PI);
+    //float dumb = subtractFromOne(yperc);
+    return glm::vec3({xperc * xdiff + zperc * -1.0f * yperc * ydiff,ydiff * yperc,xperc * yperc * -1.0f *ydiff + zperc * xdiff});
+}
+float Camera::subtractFromOne(float num) {
+    if (num > 0.0f)
+        return 1.0f - num;
+    else
+        return -1.0f - num;
+}
+void Camera::handleKey(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_EQUAL)
+    {
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        {
+            total -= .05f;
+            if (total < .05f)
+                total = .05f;
+            refresh();
+        }
+        else
+        {
+            total += .05f;
+            refresh();
+        }
+    }
+}
 void Camera::handleDrag(GLFWwindow* window,double xnewpos, double ynewpos) {
     if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_HIDDEN)
         if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         {
-            
-
+            auto var = panDirection(xpos-xnewpos,ypos-ynewpos);
+            center += var * .001f;
+            viewpoint += var * .001f;
             view = glm::lookAt(viewpoint, center, glm::vec3(0.0f, 1.0f, 0.0f));
-            xpos = xnewpos;
-            ypos = ynewpos;
-        }
-        else
-        {
-            using namespace std;
-            center = focus->center();
-            //rotational angles
-            thetaang -= glm::radians((float)ypos - ynewpos);
-            omegaang -= glm::radians((float)xpos - xnewpos);
-            //reset view matrix
-            view = glm::mat4(1.0);
-            //the x z spin makes sense, y is a construct that is against god
-            float zperc = sinf(omegaang*PI);
-            float xperc = cosf(omegaang*PI);
-            float yperc = cosf(thetaang*PI);
-            //this works but its kinda ugly and doesn't give the illusion of full rotation because the x and y stay distant
-            //just basically flips the x and z values at a high enough absolute y value
-            float fabsy = fabs(yperc);
-            if (fabsy>.995f&&
-                (inc && prev > yperc)||(!inc && prev < yperc))
-            {
-                inc = !inc;
-                flip *= -1;
-            }
-            prev = yperc;
-            viewpoint = glm::vec3(center);
-            
-            viewpoint[1] += total * yperc;
-            viewpoint[2] += ((1-fabsy) * zperc * total * flip);
-            viewpoint[0] += ((1-fabsy) * xperc * total * flip);
-
-            view = glm::lookAt(viewpoint, center, glm::vec3(0.0f,1.0f,0.0f));
-
             glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
             glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
             glBindBuffer(GL_UNIFORM_BUFFER, 0);
             xpos = xnewpos;
             ypos = ynewpos;
         }
+        else
+        {
+            using namespace std;
+            //rotational angles
+            omegaang -= glm::radians((float)xpos - xnewpos);
+            //zperc is the amount of transformation that belongs to the z axis, 0 = z parallel to camera
+            yperc += glm::radians((float)ypos - ynewpos);
+            if (yperc > 1.0f)
+                yperc = .999f;
+            if (yperc < -1.0f)
+                yperc = -.999f;
+            
+            refresh();
+            xpos = xnewpos;
+            ypos = ynewpos;
+        }
+}
+void Camera::refresh()
+{
+    float zperc = sinf(omegaang * PI);
+    float xperc = cosf(omegaang * PI);
+
+    viewpoint = glm::vec3(center);
+    float temp = total - fabs(total * yperc);
+    viewpoint[1] += total * yperc;
+    viewpoint[2] += zperc * temp;
+    viewpoint[0] += xperc * temp;
+
+    view = glm::lookAt(viewpoint, center, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
+    glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

@@ -144,6 +144,7 @@
     <ClInclude Include="EBO.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="InputController.h" />
+    <ClInclude Include="KeyListener.h" />
     <ClInclude Include="listeners.h" />
     <ClInclude Include="MouseButtonListener.h" />
     <ClInclude Include="MouseWheelListener.h" />

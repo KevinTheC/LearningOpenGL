@@ -1,5 +1,5 @@
-#ifndef INPUTCONTROLLER_H
-#define INPUTCONTROLLER_H
+#pragma once
+#include <type_traits>
 #include "includes.h"
 #include "vector"
 #include "listeners.h"
@@ -10,6 +10,7 @@ private:
 	static std::vector<ResizeListener*> resizers;
 	static std::vector<MouseButtonListener*> mbListeners;
 	static std::vector<MouseWheelListener*> mwListeners;
+	static std::vector<KeyListener*> kListeners;
 	template <typename T>
 	static void remove(T* t, std::vector<T*> vec) {
 		for (int i = 0; i < vec.size(); i++)
@@ -22,12 +23,16 @@ private:
 public:
 	template <typename T>
 	static void addObserver(T* t) {
-		if(dynamic_cast<DragListener*>(t))
+		if (dynamic_cast<DragListener*>(t))
 			draggers.push_back(t);
 		if (dynamic_cast<ResizeListener*>(t))
 			resizers.push_back(t);
 		if (dynamic_cast<MouseButtonListener*>(t))
 			mbListeners.push_back(t);
+		if (dynamic_cast<KeyListener*>(t))
+			kListeners.push_back(t);
+		if (dynamic_cast<MouseWheelListener*>(t))
+			mwListeners.push_back(t);
 	}
 	template <typename T>
 	static void removeObserver(T* t) {
@@ -37,6 +42,10 @@ public:
 			remove(t, resizers);
 		if (dynamic_cast<MouseButtonListener*>(t))
 			remove(t, mbListeners);
+		if (dynamic_cast<KeyListener*>(t))
+			remove(t, kListeners);
+		if (dynamic_cast<MouseWheelListener*>(t))
+			remove(t, mwListeners);
 	}
 
 
@@ -57,10 +66,8 @@ public:
 	}
 	static void GLFWkeyCB(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		switch (key) {
-		case GLFW_KEY_ESCAPE:
-			break;
-		}
+		for (KeyListener* kl : kListeners)
+			kl->handleKey(window,key,scancode,action,mods);
 	}
 	static void GLFWmouseWheelCB(GLFWwindow* window, double xoffset, double yoffset)
 	{
@@ -72,4 +79,4 @@ std::vector<DragListener*> InputController::draggers;
 std::vector<ResizeListener*> InputController::resizers;
 std::vector<MouseButtonListener*> InputController::mbListeners;
 std::vector<MouseWheelListener*> InputController::mwListeners;
-#endif
+std::vector<KeyListener*> InputController::kListeners;

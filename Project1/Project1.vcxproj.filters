@@ -97,7 +97,10 @@
       <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Renderable.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyListener.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +138,7 @@
       <Filter>Source Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Renderable.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files\Interfaces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
